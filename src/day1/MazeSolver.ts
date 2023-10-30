@@ -8,6 +8,18 @@
 
 // x - row
 // y - column
+type Y = number;
+type X = number;
+
+/**
+ * y, x
+ */
+const direction: [Y, X][] = [
+	[-1, 0],
+	[0, 1],
+	[1, 0],
+	[0, -1]
+];
 
 /**
  * Base case:
@@ -38,51 +50,18 @@ function walk(maze: string[], wall: string, position: Point, end: Point, seen: b
 
 	seen[position.y][position.x] = true;
 
-	const top = {
-		x: position.x,
-		y: position.y - 1,
-	};
+	for (let i = 0; i < direction.length; i += 1) {
+		const [y, x] = direction[i];
+		const pos = {
+			x: position.x + x,
+			y: position.y + y
+		}
 
-	const shouldGoUp = walk(maze, wall, top, end, seen, path);
-
-	if (shouldGoUp) {
-		path.push(top);
-		return true;
-	}
-
-	const right = {
-		x: position.x + 1,
-		y: position.y,
-	}
-	const shouldGoRight = walk(maze, wall, right, end, seen, path);
-
-	if (shouldGoRight) {
-		path.push(right);
-		return true;
-	}
-
-	const bottom = {
-		x: position.x,
-		y: position.y + 1
-	}
-
-	const shouldGoBottom = walk(maze, wall, bottom, end, seen, path);
-
-	if (shouldGoBottom) {
-		path.push(bottom);
-		return true;
-	}
-
-	const left = {
-		x: position.x - 1,
-		y: position.y,
-	};
-
-	const shouldGoLeft = walk(maze, wall, left, end, seen, path);
-
-	if (shouldGoLeft) {
-		path.push(left);
-		return true;
+		const shouldGo = walk(maze, wall,pos, end, seen, path);
+		if (shouldGo) {
+			path.push(pos);
+			return true;
+		}
 	}
 
 	return false;
