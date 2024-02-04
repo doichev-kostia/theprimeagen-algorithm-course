@@ -1,7 +1,6 @@
-
 function swap<T>(array: T[], idx: number, idx2: number) {
 	const temp = array[idx];
-	array[idx] = array[idx2]
+	array[idx] = array[idx2];
 	array[idx2] = temp;
 }
 
@@ -17,24 +16,38 @@ function qs(array: number[], low: number, high: number): void {
 }
 
 function partition(array: number[], low: number, high: number) {
-	const pivot = array[high];
+	const half = Math.floor((high - low) / 2);
+	const mid = low + half;
+	let pivotIdx = mid
+	const pivot = array[pivotIdx];
 
 	let idx = low - 1;
 
-	for (let i = low; i < high; i += 1) {
-		if (array[i] <= pivot) {
-			idx +=1;
-			swap(array, idx, i);
+	for (let i = low; i <= high; i += 1) {
+		if (i === pivotIdx) {
+			continue;
 		}
+		if (array[i] > pivot) {
+			continue;
+		}
+
+		idx += 1;
+		if (idx === pivotIdx) {
+			swap(array, pivotIdx, pivotIdx + 1)
+			pivotIdx += 1
+		}
+		swap(array, idx, i);
 	}
 
 	idx += 1;
-	array[high] = array[idx]
-	array[idx] = pivot;
+	if (pivotIdx !== idx) {
+		array[pivotIdx] = array[idx];
+		array[idx] = pivot;
+	}
 
 	return idx;
 }
 
 export default function quick_sort(arr: number[]): void {
-	qs(arr, 0, arr.length - 1)
+	qs(arr, 0, arr.length - 1);
 }
