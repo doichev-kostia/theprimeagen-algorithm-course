@@ -1,13 +1,17 @@
+function walk(node: BinaryNode<number>, path: number[]): void {
+	path.push(node.value)
 
-function walk(node: BinaryNode<number> | null, path: number[]): void {
-	if (!node) {
+	if (node.left == null && node.right == null) {
 		return
 	}
 
-	path.push(node.value);
+	if (node.left) {
+		walk(node.left, path)
+	}
 
-	walk(node.left,  path);
-	walk(node.right, path);
+	if (node.right) {
+		walk(node.right, path)
+	}
 }
 
 export default function pre_order_search(head: BinaryNode<number>): number[] {
