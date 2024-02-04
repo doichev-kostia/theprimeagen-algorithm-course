@@ -28,6 +28,23 @@ function cmp(a: BinaryNode<number>, b: BinaryNode<number>): boolean {
 	return true;
 }
 
+function primeagen_compare(a: BinaryNode<number> | null, b: BinaryNode<number> | null): boolean {
+	if (a === null && b === null) {
+		return true
+	}
+
+	if (a === null || b === null) {
+		return false
+	}
+
+	if (a.value !== b.value) {
+		return false;
+	}
+
+	// instead of doing const res = cmp(); if res === false { return false }
+	return primeagen_compare(a.left, b.left) && primeagen_compare(a.right, b.right);
+}
+
 export default function compare(a: BinaryNode<number> | null, b: BinaryNode<number> | null): boolean {
 	if (!a && !b) {
 		return true;
